@@ -36,20 +36,31 @@
 
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="card w-75">
+            <div class="card w-100">
                 <h5 class="card-header">Podstawowy</h5>
-                <div class="card-body">
-                    <h5 class="card-title" id="name"></h5>
-                    <p class="card-text" id="details"></p>
+                <div class="card-body" style="width: 100%">
+                    <div id="picker" style="margin: 0 auto; width: 50%"></div>
                 </div>
             </div>
         </div>
 
     </div>
-
+    <script src='js/iro.min.js'></script>
     <script src="js/jquery-3.4.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script>
+
+        var colorPicker = new iro.ColorPicker('#picker');
+        colorPicker.on('color:change', function (color) {
+        });
+
+    </script>
+
+    <style>
+
+    </style>
 </body>
 
 </html>
