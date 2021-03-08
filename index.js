@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/rosliny', async (req, res) => {
     let schedule = await db.getWholeSchedule();
-    res.render('schedule', { schedule: schedule });
+    res.render('schedule', { schedule : schedule });
 });
 
 // HTTP CONTROL

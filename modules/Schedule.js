@@ -1,5 +1,5 @@
 const nodeschedule = require('node-schedule');
-const db = require('./obj/objects').query;
+const db = require('../obj/objects').query;
 const STATES = require('./States').Schedule;
 
 class Schedule {
@@ -17,7 +17,7 @@ class Schedule {
 
         for (id in rows) {
             if (rows[id].oneTime && new Date(rows[id].scheduleTime) < new Date()) {
-                await db.deleteSchedulePosition(rows[id].ID)
+                await db.deleteSchedulePosition(rows[id].ID);
             } else {
                 if (rows[id].scheduleType == STATES.START) {
                     let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, function () {
@@ -40,9 +40,14 @@ class Schedule {
 
     // Insert new schedule to DB and update schedule
     insertNewSchedule = async function(type, oneTime, date){
-        let type = type == 'on' ? STATES.START : STATES.STOP;
+        type = type == 'on' ? STATES.START : STATES.STOP;
         await db.insertNewSchedule(type, oneTime, date);
-        this.updateSchedule();
+        await this.updateSchedule();
+    }
+
+    cancelSchedule = async function(id){
+        await db.deleteSchedulePosition(id);
+        await this.updateSchedule();
     }
 
 }

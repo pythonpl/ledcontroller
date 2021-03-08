@@ -43,7 +43,13 @@ html
                                             else
                                                 | WYŁĄCZ
                                         th
-                                            input(type='button' value='Anuluj' onclick="removeSchedule("+s.ID+")")
+                                            input(type='button' value='Anuluj' onclick="cancelSchedule("+s.ID+")")
+            .row.justify-content-md-center
+                .card.w-100
+                    h5.card-header Dodaj nowe załączenie
+                    .card-body
+
+
 
         script(src='js/iro.min.js')
         script(src='js/jquery-3.6.0.min.js')

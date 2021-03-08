@@ -10,7 +10,7 @@ socket.on('b_initColor', (data) => {
 function offLed() {
     $.ajax({
         url: '/offLedstrip',
-        method: 'GET'
+        method: 'POST'
     }).then(function (data) {
     }).catch(function () { });
 }
