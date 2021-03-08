@@ -5,6 +5,8 @@ html
         meta(name='description' content='')
         meta(name='author' content='')
         link(href='css/bootstrap.min.css' rel='stylesheet')
+        link(href='css/mod.css' rel='stylesheet')
+        link(href='css/jquery.datetimepicker.min.css' rel='stylesheet')
         title
             | Kontroler LED
     body
@@ -46,8 +48,31 @@ html
                                             input(type='button' value='Anuluj' onclick="cancelSchedule("+s.ID+")")
             .row.justify-content-md-center
                 .card.w-100
-                    h5.card-header Dodaj nowe załączenie
+                    h5.card-header Dodaj nowe załączenie cykliczne
                     .card-body
+                        label(for="cyPicker") Godzina zdarzenia:  
+                        input(type="text" id="cyPicker")
+                        br
+                        label(for='cyOn') Włącz
+                        input#otOn(type='radio' name='cyType' value='on')
+                        br
+                        label(for='cyOff') Wyłącz
+                        input#otOff(type='radio' name='cyType' value='off' checked)
+                        br
+                        input.btn.btn-primary(type="button" value="Dodaj!" onclick="addCycEvent()")
+                .card.w-100
+                    h5.card-header Dodaj nowe załączenie pojedyncze
+                    .card-body
+                        label(for="otPicker") Godzina zdarzenia:  
+                        input(type="text" id="otPicker")
+                        br
+                        label(for='otOn') Włącz
+                        input#otOn(type='radio' name='otType' value='on')
+                        br
+                        label(for='otOff') Wyłącz
+                        input#otOff(type='radio' name='otType' value='off' checked)
+                        br
+                        input.btn.btn-primary(type="button" value="Dodaj!" onclick="addOTEvent()")
 
 
 
@@ -56,5 +81,6 @@ html
         script(src='js/popper.min.js')
         script(src='js/bootstrap.min.js')
         script(src='js/socket.io.min.js')
+        script(src='js/jquery.datetimepicker.full.min.js')
         script(src='js/site_scripts/schedule.js')
 

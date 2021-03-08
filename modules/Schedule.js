@@ -6,33 +6,35 @@ class Schedule {
 
     constructor() {
         this.scheduleList = [];
+        setTimeout(()=>{ this.updateSchedule(); }, 1200)
     }
 
     // Update schedule after change
-    updateSchedule = async function () {
-        console.log('Updating schedule...');
-        this.scheduleList.forEach((element) => { element.cancel() })
+    updateSchedule = async function () {        
+        for(let i = 0; i<this.scheduleList.length; i++){
+            this.scheduleList[i].cancel();
+        }
         this.scheduleList = [];
         let rows = await db.getWholeSchedule();
 
-        for (id in rows) {
+        for (let id in rows) {
             if (rows[id].oneTime && new Date(rows[id].scheduleTime) < new Date()) {
                 await db.deleteSchedulePosition(rows[id].ID);
             } else {
                 if (rows[id].scheduleType == STATES.START) {
-                    let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, function () {
+                    let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
                         // RELAY ON
                         console.log('ON RELAY');
-                        updateSchedule();
+                        this.updateSchedule();
                     });
-                    scheduleList.push(sched);
+                    this.scheduleList.push(sched);
                 } else {
-                    let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, function () {
+                    let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
                         // RELAY OFF
                         console.log('OFF RELAY');
-                        updateSchedule();
+                        this.updateSchedule();
                     });
-                    scheduleList.push(sched);
+                    this.scheduleList.push(sched);
                 }
             }
         }
@@ -41,7 +43,11 @@ class Schedule {
     // Insert new schedule to DB and update schedule
     insertNewSchedule = async function(type, oneTime, date){
         type = type == 'on' ? STATES.START : STATES.STOP;
-        await db.insertNewSchedule(type, oneTime, date);
+        if(!oneTime){
+            let temp = date.split(':');
+            date = temp[1] + ' ' + temp[0] + ' * * *';
+        }
+        await db.insertSchedulePosition(type, oneTime, date);
         await this.updateSchedule();
     }
 

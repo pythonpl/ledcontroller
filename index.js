@@ -7,6 +7,8 @@ const io = require('socket.io')(http);
 const apiRoutes = require('./api');
 
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.set('view engine', 'pug');
 app.set("views", path.join(__dirname, "views"));
 
@@ -15,6 +17,7 @@ const led = require('./obj/objects').led;
 
 // DB OBJ
 const db = require('./obj/objects').query;
+
 
 // MAIN ROUTES
 app.get('/', (req, res) => {
