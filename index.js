@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path')
 const port = 3700;
 const app = express();
 const http = require('http').createServer(app);
@@ -6,17 +7,23 @@ const io = require('socket.io')(http);
 const apiRoutes = require('./api');
 
 app.use(express.static('public'));
+app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, "views"));
 
 // LEDSTRIP OBJ
-var led = require('./obj/ledstrip');
+const led = require('./obj/objects').led;
+
+// DB OBJ
+const db = require('./obj/objects').query;
 
 // MAIN ROUTES
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public' + '/basic.html');
+    res.render('basic');
 });
 
-app.get('/rosliny', (req, res) => {
-    res.sendFile(__dirname + '/public' + '/plants.html');
+app.get('/rosliny', async (req, res) => {
+    let schedule = await db.getWholeSchedule();
+    res.render('schedule', { schedule: schedule });
 });
 
 // HTTP CONTROL

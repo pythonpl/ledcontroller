@@ -3,3 +3,8 @@ exports.LedStrip = Object.freeze({
     EXTENDED:2,
     ANIMATION:3
 });
+
+exports.Schedule = Object.freeze({
+    START : true,
+    STOP : false
+});

@@ -6,23 +6,29 @@ class LedStrip {
         this.gpio = gpio;
         this.pixelData = new Uint32Array(ledcount);
         this.stripState = STATES.BASIC;
+        this.lastColor = '#000000';
 
         this.initHardware();
     }
 
     switchState(state) {
-        this.offStrip();
         this.stripState = state;
+        this.offStrip();
     }
 
     offStrip() {
         this.setAllLeds('#000000');
     }
 
-    setAllLeds(color) {
-        if (this.getState() != STATES.BASIC){
+    setColorInBasicMode(color) {
+        if ((this.getState() != STATES.BASIC) && changeState) {
             this.switchState(STATES.BASIC)
         }
+        this.setAllLeds(color);
+    }
+
+    setAllLeds(color){
+        this.lastColor = color;
         this.pixelData.forEach((element, index) => { this.setPixelColor(color, index); });
     }
 
@@ -37,7 +43,10 @@ class LedStrip {
     }
 
     getCurrentColor() {
-        return '#000000';
+        if(this.getState() == STATES.BASIC)
+            return this.lastColor;
+        else
+            return '#000000';
     }
 
     getState() {

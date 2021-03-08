@@ -1,0 +1,54 @@
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(name='description' content='')
+        meta(name='author' content='')
+        link(href='css/bootstrap.min.css' rel='stylesheet')
+        title
+            | Kontroler LED
+    body
+        nav.navbar.navbar-expand-lg.navbar.navbar-dark.bg-dark
+            a.navbar-brand(href='#') LED Controller
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavDropdown' aria-controls='navbarNavDropdown' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarNavDropdown.collapse.navbar-collapse
+                ul.navbar-nav
+                    li.nav-item.active
+                        a.nav-link(href='#') Podstawowy
+                    li.nav-item
+                        a.nav-link(href='#') Zaawansowany
+                    li.nav-item
+                        a.nav-link(href='#') Rośliny
+        .container
+            .row.justify-content-md-center
+                .card.w-100
+                    h5.card-header Harmonogram załączeń
+                    .card-body
+                        table.table
+                            thead.thead-light
+                                tr
+                                    th(scope="col") ID
+                                    th(scope="col") Czas
+                                    th(scope="col") Rodzaj
+                                    th(scope="col") Opcje
+                            tbody
+                                for s in schedule
+                                    tr
+                                        th= s.ID
+                                        th= s.scheduleTime
+                                        th
+                                            if s.scheduleType == 1
+                                                | WŁĄCZ
+                                            else
+                                                | WYŁĄCZ
+                                        th
+                                            input(type='button' value='Anuluj' onclick="removeSchedule("+s.ID+")")
+
+        script(src='js/iro.min.js')
+        script(src='js/jquery-3.6.0.min.js')
+        script(src='js/popper.min.js')
+        script(src='js/bootstrap.min.js')
+        script(src='js/socket.io.min.js')
+        script(src='js/site_scripts/schedule.js')
+
