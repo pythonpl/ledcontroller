@@ -14,3 +14,19 @@ function offLed() {
     }).then(function (data) {
     }).catch(function () { });
 }
+
+function onRelay(){
+    $.ajax({
+        url: '/onRelay',
+        method: 'POST'
+    }).then(function (data) {
+    }).catch(function () { });
+}
+
+function offRelay(){
+    $.ajax({
+        url: '/offRelay',
+        method: 'POST'
+    }).then(function (data) {
+    }).catch(function () { });
+}

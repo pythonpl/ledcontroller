@@ -18,7 +18,6 @@ const led = require('./obj/objects').led;
 // DB OBJ
 const db = require('./obj/objects').query;
 
-
 // MAIN ROUTES
 app.get('/', (req, res) => {
     res.render('basic');

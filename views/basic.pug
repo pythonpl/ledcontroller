@@ -5,6 +5,7 @@ html
         meta(name='description' content='')
         meta(name='author' content='')
         link(href='css/bootstrap.min.css' rel='stylesheet')
+        link(href='css/mod.css' rel='stylesheet')
         title
             | Kontroler LED
     body
@@ -15,11 +16,9 @@ html
             #navbarNavDropdown.collapse.navbar-collapse
                 ul.navbar-nav
                     li.nav-item.active
-                        a.nav-link(href='#') Podstawowy
+                        a.nav-link(href='/') Podstawowy
                     li.nav-item
-                        a.nav-link(href='#') Zaawansowany
-                    li.nav-item
-                        a.nav-link(href='#') Rośliny
+                        a.nav-link(href='/rosliny') Harmonogram
         .container
             .row.justify-content-md-center
                 .card.w-100
@@ -27,6 +26,11 @@ html
                     .card-body(style='width: 100%')
                         #picker(style='margin: 0 auto; width: 50%')
                         input.btn.btn-primary(type='button' value='Wyłącz' onclick='offLed()')
+                .card.w-100
+                    h5.card-header Przekaźnik oświetlenia roślin
+                    .card-body()
+                        input.btn.btn-primary(type='button' value='Włącz' onclick='onRelay()')
+                        input.btn.btn-primary(type='button' value='Wyłącz' onclick='offRelay()')
         script(src='js/iro.min.js')
         script(src='js/jquery-3.6.0.min.js')
         script(src='js/popper.min.js')

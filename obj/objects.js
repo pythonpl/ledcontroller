@@ -9,3 +9,7 @@ module.exports.query = query;
 const Schedule = require('../modules/Schedule');
 const sched = new Schedule();
 module.exports.schedule = sched;
+
+const PlantRelay = require('../modules/Relay');
+const relay = new PlantRelay(15);
+module.exports.plantrelay = relay;

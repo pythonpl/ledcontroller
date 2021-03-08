@@ -1,5 +1,6 @@
 const nodeschedule = require('node-schedule');
 const db = require('../obj/objects').query;
+const plantrelay = require('../obj/objects').plantrelay;
 const STATES = require('./States').Schedule;
 
 class Schedule {
@@ -23,15 +24,13 @@ class Schedule {
             } else {
                 if (rows[id].scheduleType == STATES.START) {
                     let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
-                        // RELAY ON
-                        console.log('ON RELAY');
+                        plantrelay.set();
                         this.updateSchedule();
                     });
                     this.scheduleList.push(sched);
                 } else {
                     let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
-                        // RELAY OFF
-                        console.log('OFF RELAY');
+                        plantrelay.reset();
                         this.updateSchedule();
                     });
                     this.scheduleList.push(sched);
@@ -51,6 +50,7 @@ class Schedule {
         await this.updateSchedule();
     }
 
+    // Cancel scheduled event
     cancelSchedule = async function(id){
         await db.deleteSchedulePosition(id);
         await this.updateSchedule();
