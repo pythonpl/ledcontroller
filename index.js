@@ -51,7 +51,7 @@ http.listen(port, () => {
 
 process.on("SIGINT", async () => {
 	if (!running) {
-		return; // avoid calling shutdown twice
+		return;
 	}
 			
 	console.log("Shutting down.");

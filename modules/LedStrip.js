@@ -1,6 +1,7 @@
 const STATES = require('./States').LedStrip;
 var ws281x = require("rpi-ws281x-native");
 
+
 class LedStrip {
     constructor(ledcount, gpio) {
         this.ledcount = ledcount;
