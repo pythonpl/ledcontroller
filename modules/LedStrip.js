@@ -1,4 +1,5 @@
 const STATES = require('./States').LedStrip;
+var ws281x = require("rpi-ws281x-native");
 
 class LedStrip {
     constructor(ledcount, gpio) {
@@ -34,7 +35,6 @@ class LedStrip {
 
     setPixelColor(value, pixel) {
         this.pixelData[pixel] = this.getGRB(value);
-        this.update();
     }
 
     // GETTERS  
@@ -67,12 +67,16 @@ class LedStrip {
     // Hardware updater
     // Call every time you want to apply changes
     update() {
+        ws281x.render(this.pixelData);
+    }
 
+    hardwareReset() {
+        ws281x.reset();
     }
 
     // Hardware initializer
     initHardware() {
-
+        ws281x.init(this.ledcount);
     }
 }
 

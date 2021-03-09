@@ -12,6 +12,9 @@ app.use(express.json());
 app.set('view engine', 'pug');
 app.set("views", path.join(__dirname, "views"));
 
+const INTERVAL = 100;
+var running = false;
+
 // LEDSTRIP OBJ
 const led = require('./obj/objects').led;
 
@@ -42,4 +45,22 @@ io.sockets.on('connection', function(socket){
 
 http.listen(port, () => {
     console.log(`Listening http://localhost:${port}`)
+    running = true;
 });
+
+
+process.on("SIGINT", async () => {
+	if (!running) {
+		return; // avoid calling shutdown twice
+	}
+			
+	console.log("Shutting down.");
+	led.hardwareReset();
+    process.nextTick(function () { process.exit(0); });
+
+});
+
+setInterval(function () {
+    if(running)
+        led.update();
+}, INTERVAL)

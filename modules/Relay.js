@@ -1,3 +1,5 @@
+var GPIO = require('onoff').Gpio;
+
 class Relay {
     constructor(gpio) {
         this.gpio = gpio;
@@ -6,17 +8,17 @@ class Relay {
     }
 
     initHardware(){
-        
+        this.relay = new GPIO(this.gpio, 'out');
     }
 
     set(){
         //GPIO SET
-        console.log('Relay set!');
+        this.relay.writeSync(0);
     }
 
     reset(){
         //GPIO RESET
-        console.log('Relay reset!');
+        this.relay.writeSync(1);
     }
 }
 
