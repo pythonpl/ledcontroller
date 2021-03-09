@@ -3,6 +3,7 @@ const db = require('../obj/objects').query;
 const plantrelay = require('../obj/objects').plantrelay;
 const STATES = require('./States').Schedule;
 
+
 class Schedule {
 
     constructor() {

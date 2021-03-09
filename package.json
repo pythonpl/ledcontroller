@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/pythonpl/ledcontroller.git"
   },
-  "author": "Michal Slusarczyk",
-  "license": "ISC",
+  "author": "pythonpl",
+  "license": "GPL",
   "bugs": {
     "url": "https://github.com/pythonpl/ledcontroller/issues"
   },
@@ -20,7 +20,9 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "node-schedule": "^2.0.0",
+    "onoff": "^6.0.1",
     "pug": "^3.0.2",
+    "rpi-ws281x-native": "^0.10.2",
     "socket.io": "^3.1.2",
     "sqlite3": "^5.0.2"
   }
