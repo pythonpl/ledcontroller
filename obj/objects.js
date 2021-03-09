@@ -1,5 +1,5 @@
 const LedStrip = require('../modules/LedStrip');
-const led = new LedStrip(3, 14);
+const led = new LedStrip(54, 0);
 module.exports.led = led;
 
 const SqliteQuery = require('../modules/SqliteQuery');
@@ -11,5 +11,5 @@ const sched = new Schedule();
 module.exports.schedule = sched;
 
 const PlantRelay = require('../modules/Relay');
-const relay = new PlantRelay(15);
+const relay = new PlantRelay(17);
 module.exports.plantrelay = relay;

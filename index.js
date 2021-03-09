@@ -12,7 +12,7 @@ app.use(express.json());
 app.set('view engine', 'pug');
 app.set("views", path.join(__dirname, "views"));
 
-const INTERVAL = 100;
+const INTERVAL = 30;
 var running = false;
 
 // LEDSTRIP OBJ
@@ -51,7 +51,7 @@ http.listen(port, () => {
 
 process.on("SIGINT", async () => {
 	if (!running) {
-		return;
+		return; // avoid calling shutdown twice
 	}
 			
 	console.log("Shutting down.");
