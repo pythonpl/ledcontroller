@@ -1,8 +1,6 @@
 const nodeschedule = require('node-schedule');
 const db = require('../obj/objects').query;
-const plantrelay = require('../obj/objects').plantrelay;
 const STATES = require('./States').Schedule;
-
 
 class Schedule {
 
@@ -25,13 +23,13 @@ class Schedule {
             } else {
                 if (rows[id].scheduleType == STATES.START) {
                     let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
-                        plantrelay.set();
+                        (require('../obj/objects').plantrelay).set();
                         this.updateSchedule();
                     });
                     this.scheduleList.push(sched);
                 } else {
                     let sched = nodeschedule.scheduleJob(rows[id].scheduleTime, () => {
-                        plantrelay.reset();
+                        (require('../obj/objects').plantrelay).reset();
                         this.updateSchedule();
                     });
                     this.scheduleList.push(sched);
@@ -43,7 +41,7 @@ class Schedule {
     // Insert new schedule to DB and update schedule
     insertNewSchedule = async function(type, oneTime, date){
         type = type == 'on' ? STATES.START : STATES.STOP;
-        if(!oneTime){
+        if(!(oneTime=='true')){
             let temp = date.split(':');
             date = temp[1] + ' ' + temp[0] + ' * * *';
         }
