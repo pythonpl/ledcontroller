@@ -22,17 +22,37 @@ class SqliteQuery {
         });
     }
 
-    getWholeSchedule = async function(){
-        let rows = await this.query('SELECT * FROM scheduleData');
-        return rows;
+    getWholeSchedule(){
+        return new Promise(async (res, rej) => {
+            try{
+                let rows = await this.query('SELECT * FROM scheduleData');
+                res(rows);
+            }catch(e){
+                rej(e);
+            }
+        })
     }
 
-    deleteSchedulePosition = async function(id){
-        await this.query('DELETE FROM scheduleData WHERE ID = ?', [id])
+    deleteSchedulePosition(id){
+        return new Promise(async (res, rej) => {
+            try{
+                await this.query('DELETE FROM scheduleData WHERE ID = ?', [id]);
+            }catch(e){
+                rej(e);
+            }
+            res(true);
+        })
     }
 
-    insertSchedulePosition = async function(type, onetime, date){
-        await this.query('INSERT INTO scheduleData VALUES (NULL, ?, ?, ?)', [type, date, onetime]);
+    insertSchedulePosition(type, onetime, date){
+        return new Promise(async (res, rej) => {
+            try{
+                await this.query('INSERT INTO scheduleData VALUES (NULL, ?, ?, ?)', [type, date, onetime]);
+            }catch(e){
+                rej(e);
+            }
+            res(true);
+        })    
     }
 }
 
