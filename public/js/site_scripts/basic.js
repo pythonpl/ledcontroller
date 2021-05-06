@@ -1,4 +1,4 @@
-const socket = io.connect('http://192.168.1.89:3700');
+const socket = io.connect('http://192.168.1.66:3700');
 socket.on('b_initColor', (data) => {
     $('#picker').empty();
     var colorPicker = new iro.ColorPicker('#picker', { color: data });

@@ -44,14 +44,14 @@ class LedStrip {
 
   setLedsColor(leds, color) {
     // EVEN LED GROUP
-    if (leds === 0) {
+    if (leds == 0) {
         for(let i = 0; i < this.ledcount; i = i+2){
             this.setPixelColor(color, i);
         }
     }
 
     // ODD LED GROUP
-    if (leds === 1) {
+    if (leds == 1) {
         for(let i = 1; i < this.ledcount; i = i+2){
             this.setPixelColor(color, i);
         }
