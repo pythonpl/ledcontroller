@@ -26,6 +26,10 @@ app.get('/', (req, res) => {
     res.render('basic');
 });
 
+app.get('/extended', (req, res) => {
+    res.render('extended');
+});
+
 app.get('/rosliny', async (req, res) => {
     let schedule = await db.getWholeSchedule();
     res.render('schedule', { schedule : schedule });

@@ -1,0 +1,43 @@
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(name='description' content='')
+        meta(name='author' content='')
+        link(href='css/bootstrap.min.css' rel='stylesheet')
+        link(href='css/mod.css' rel='stylesheet')
+        title
+            | Kontroler LED
+    body
+        nav.navbar.navbar-expand-lg.navbar.navbar-dark.bg-dark
+            a.navbar-brand(href='#') LED Controller
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavDropdown' aria-controls='navbarNavDropdown' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarNavDropdown.collapse.navbar-collapse
+                ul.navbar-nav
+                    li.nav-item.active
+                        a.nav-link(href='/') Podstawowy
+                    li.nav-item
+                        a.nav-link(href='/rosliny') Harmonogram
+        .container
+            .row.justify-content-md-center
+                .card.w-100
+                    h5.card-header Rozszerzony
+                    .card-body
+                        #picker
+                .card.w-100
+                    h5.card-header Grupa LED
+                    .card-body
+                        #groups
+                            input.btn.btn-primary(type='button' value='Parzyste' onclick='changeEven()')
+                            input.btn.btn-primary(type='button' value='Nieparzyste' onclick='changeOdd()')
+                        
+
+
+        script(src='js/iro.min.js')
+        script(src='js/jquery-3.6.0.min.js')
+        script(src='js/popper.min.js')
+        script(src='js/bootstrap.min.js')
+        script(src='js/socket.io.min.js')
+        script(src='js/site_scripts/extended.js')
+

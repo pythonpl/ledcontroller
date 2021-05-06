@@ -1,84 +1,112 @@
-const STATES = require('./States').LedStrip;
-var ws281x = require("rpi-ws281x-native");
-
+const STATES = require("./States").LedStrip;
+const ws281x = require("rpi-ws281x-native");
 
 class LedStrip {
-    constructor(ledcount, gpio) {
-        this.ledcount = ledcount;
-        this.gpio = gpio;
-        this.pixelData = new Uint32Array(ledcount);
-        this.stripState = STATES.BASIC;
-        this.lastColor = '#000000';
+  constructor(ledcount, gpio) {
+    this.ledcount = ledcount;
+    this.gpio = gpio;
+    this.pixelData = new Uint32Array(ledcount);
+    this.stripState = STATES.BASIC;
+    this.lastColor = "#000000";
 
-        this.initHardware();
+    this.initHardware();
+  }
+
+  switchState(state) {
+    this.stripState = state;
+    this.offStrip();
+  }
+
+  offStrip() {
+    this.setAllLeds("#000000");
+  }
+
+  setColorInBasicMode(color) {
+    if (
+      this.getState() != STATES.BASIC &&
+      changeState
+    ) {
+      this.switchState(STATES.BASIC);
     }
+    this.setAllLeds(color);
+  }
 
-    switchState(state) {
-        this.stripState = state;
-        this.offStrip();
-    }
+  setAllLeds(color) {
+    this.lastColor = color;
+    this.pixelData.forEach((element, index) => {
+      this.setPixelColor(color, index);
+    });
+  }
 
-    offStrip() {
-        this.setAllLeds('#000000');
-    }
+  setPixelColor(value, pixel) {
+    this.pixelData[pixel] = this.getGRB(value);
+  }
 
-    setColorInBasicMode(color) {
-        if ((this.getState() != STATES.BASIC) && changeState) {
-            this.switchState(STATES.BASIC)
+  setLedsColor(leds, color) {
+    // EVEN LED GROUP
+    if (leds === 0) {
+        for(let i = 0; i < this.ledcount; i = i+2){
+            this.setPixelColor(color, i);
         }
-        this.setAllLeds(color);
     }
 
-    setAllLeds(color){
-        this.lastColor = color;
-        this.pixelData.forEach((element, index) => { this.setPixelColor(color, index); });
+    // ODD LED GROUP
+    if (leds === 1) {
+        for(let i = 1; i < this.ledcount; i = i+2){
+            this.setPixelColor(color, i);
+        }
     }
+  }
 
-    setPixelColor(value, pixel) {
-        this.pixelData[pixel] = this.getGRB(value);
-    }
+  // GETTERS
+  getLedCount() {
+    return this.ledcount;
+  }
 
-    // GETTERS  
-    getLedCount() {
-        return this.ledcount;
-    }
+  getCurrentColor() {
+    if (this.getState() == STATES.BASIC)
+      return this.lastColor;
+    else return "#000000";
+  }
 
-    getCurrentColor() {
-        if(this.getState() == STATES.BASIC)
-            return this.lastColor;
-        else
-            return '#000000';
-    }
+  getState() {
+    return this.stripState;
+  }
 
-    getState() {
-        return this.stripState;
-    }
+  // MISC FUNCTIONS
 
-    // MISC FUNCTIONS
+  // Color converter
+  // Used to convert value from RGB to GRB which applies to the led strip
+  getGRB(value) {
+    let arr = value.replace("#", "0x").split("");
+    return parseInt(
+      "0x" +
+        arr[4] +
+        arr[5] +
+        arr[2] +
+        arr[3] +
+        arr[6] +
+        arr[7],
+      16
+    );
+  }
 
-    // Color converter
-    // Used to convert value from RGB to GRB which applies to the led strip
-    getGRB(value) {
-        let arr = (value.replace('#', '0x')).split('');
-        return parseInt('0x' + arr[4] + arr[5] + arr[2] + arr[3] + arr[6] + arr[7], 16);
-    }
+  // HARDWARE FUNCTIONS
 
-    // HARDWARE FUNCTIONS
+  // Hardware updater
+  // Call every time you want to apply changes
+  update() {
+    ws281x.render(this.pixelData);
+  }
 
-    // Hardware updater
-    // Call every time you want to apply changes
-    update() {
-        ws281x.render(this.pixelData);
-    }
+  hardwareReset() {
+    ws281x.reset();
+  }
 
-    hardwareReset() {
-        ws281x.reset();
-    }
-
-    // Hardware initializer
-    initHardware() {
-        ws281x.init(this.ledcount);
-    }
+  // Hardware initializer
+  initHardware() {
+    ws281x.init(this.ledcount);
+  }
 }
 
 module.exports = LedStrip;

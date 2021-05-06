@@ -1,4 +1,4 @@
-var GPIO = require('onoff').Gpio;
+const GPIO = require('onoff').Gpio;
 
 class Relay {
     constructor(gpio) {
